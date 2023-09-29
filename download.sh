@@ -4,4 +4,4 @@
 
 easypwned_haveibeenpwned_downloader --sink-bloom-file=database/hibp.bloom --sink-stdout > database/hibp.txt
 
-echo date -I > database/last-updated.txt
+date -Idate > database/last-updated.txt
