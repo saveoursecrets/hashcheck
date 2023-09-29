@@ -1,0 +1,3 @@
+[submodule "easypwned"]
+	path = easypwned
+	url = https://github.com/easybill/easypwned
