@@ -2,6 +2,6 @@
 
 (cd easypwned/downloader && cargo install --path .)
 
-easypwned_haveibeenpwned_downloader --sink-bloom-file=hibp.bloom --sink-stdout > hibp.txt
+easypwned_haveibeenpwned_downloader --sink-bloom-file=database/hibp.bloom --sink-stdout > database/hibp.txt
 
-echo date > last-updated.txt
+echo date -I > database/last-updated.txt
