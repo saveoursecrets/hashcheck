@@ -11,13 +11,13 @@ Run the `upload.sh` script to copy the downloaded database and bloom filter to S
 ### Build
 
 ```
-docker build . --tag hibp
+docker build . --tag hashcheck
 ```
 
 ### Run
 
 ```
-docker run -it --rm --name hibp-service -p 3342:3342 hibp
+docker run -it --rm --name hashcheck-service -p 3342:3342 hashcheck
 ```
 
 © Copyright Save Our Secrets Pte Ltd 2022; all rights reserved.
