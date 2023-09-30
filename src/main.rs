@@ -109,5 +109,5 @@ async fn handler_hash(
     // Must be upper case for the check
     let value = hash.to_string();
     let check = bloom.check(&value.as_bytes().to_vec());
-    Json(json!({"secure": !check}))
+    Json(json!(check))
 }
