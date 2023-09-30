@@ -19,3 +19,5 @@ docker build . --tag hibp
 ```
 docker run -it --rm --name hibp-service -p 3342:3342 hibp
 ```
+
+© Copyright Save Our Secrets Pte Ltd 2022; all rights reserved.
