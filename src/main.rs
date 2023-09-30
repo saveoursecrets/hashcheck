@@ -91,7 +91,7 @@ async fn main() -> Result<()> {
 
     let bloom_ext = Arc::new(bloom);
     let app = Router::new()
-        .route("/hash/:hash", get(handler_hash))
+        .route("/:hash", get(handler_hash))
         .layer(Extension(bloom_ext));
 
     tracing::info!("listening on {}", addr);
