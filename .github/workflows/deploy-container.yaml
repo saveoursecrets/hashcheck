@@ -15,6 +15,13 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Download bloom filter
+        run: |
+          cd database
+          curl -OL https://s3.ap-southeast-1.amazonaws.com/hibp.saveoursecrets.com/last-updated.txt
+          curl -OL https://s3.ap-southeast-1.amazonaws.com/hibp.saveoursecrets.com/hibp.bloom
+
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
