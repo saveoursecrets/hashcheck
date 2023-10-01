@@ -1,7 +1,7 @@
 spec:
   name: hashcheck
   services:
-  - dockerfile_path: Dockerfile-app
+  - dockerfile_path: Dockerfile
     git:
       branch: main
       repo_clone_url: https://github.com/saveoursecrets/hashcheck.git

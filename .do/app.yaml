@@ -1,6 +1,6 @@
 name: hashcheck
 services:
-- dockerfile_path: Dockerfile-app
+- dockerfile_path: Dockerfile
   github:
     branch: main
     deploy_on_push: true

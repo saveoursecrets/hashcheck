@@ -30,6 +30,8 @@ Run the `scripts/upload.sh` script to copy the downloaded database and bloom fil
 
 ### Build
 
+If you have already downloaded the database then using `-f Dockerfile-local` will be faster as it won't download the bloom filter data from S3.
+
 ```
 docker build . --tag hashcheck
 ```
