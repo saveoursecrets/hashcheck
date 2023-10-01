@@ -20,11 +20,11 @@ Where `:hash` is a SHA-1 hash of the password to check; the reply is a JSON bool
 
 ### Download
 
-Run the `scripts/download.sh` script to install the downloader and download the database and create the bloom filter.
+Run the `scripts/download.sh` script to install the downloader, download the database and create the bloom filter.
 
 ### Upload
 
-Run the `scripts/upload.sh` script to copy the downloaded database and bloom filter to S3.
+Run the `scripts/upload.sh` script to copy the bloom filter and meta data files to S3.
 
 ## Docker
 

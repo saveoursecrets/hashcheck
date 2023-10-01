@@ -3,7 +3,7 @@ services:
 - dockerfile_path: Dockerfile
   github:
     branch: main
-    deploy_on_push: true
+    #deploy_on_push: true
     repo: saveoursecrets/hashcheck
   name: hashcheck
   http_port: 3342
