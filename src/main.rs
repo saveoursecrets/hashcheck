@@ -63,7 +63,7 @@ async fn main() -> Result<()> {
     let args = HibpService::parse();
     let addr = args.bind.parse::<SocketAddr>()?;
 
-    let last_updated = std::fs::read_to_string(&args.last_updated)?;
+    let last_updated = std::fs::read_to_string(&args.last_updated)?.trim();
     let meta_data = MetaData { last_updated };
 
     let meta = std::fs::metadata(&args.file)?;
