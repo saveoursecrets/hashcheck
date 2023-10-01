@@ -14,7 +14,7 @@ The service provides a single GET endpoint:
 /:hash
 ```
 
-Where `:hash` is a SHA-1 hash of the password to check; the reply is a JSON boolean `true` if the password hash was found in the database otherwise `false`.
+Where `:hash` is a SHA-1 hash of the password to check; the reply is a JSON number `1` if the password hash was found in the database otherwise `0`.
 
 ## Scripts
 
