@@ -1,0 +1,11 @@
+name: hashcheck
+services:
+- dockerfile_path: Dockerfile
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: saveoursecrets/hashcheck
+  name: hashcheck
+  http_port: 3342
+  instance_count: 1
+  instance_size_slug: basic-xxs
