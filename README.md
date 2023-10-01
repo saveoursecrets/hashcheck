@@ -44,6 +44,15 @@ docker run -it --rm --name hashcheck -p 3342:3342 hashcheck
 
 ### Deployment
 
+Tag and push to run the workflow that deploys the container to ECR:
+
+```
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+### Manual Deployment Notes
+
 Deploy to the container registry.
 
 Create a login password for the container registry:
