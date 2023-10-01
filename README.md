@@ -2,6 +2,20 @@
 
 Check a password hash (SHA-1) against a list of hashes of known breached password downloaded from the [haveibeenpwned database](https://haveibeenpwned.com/) using the [easypwned](https://github.com/easybill/easypwned) downloader.
 
+## API
+
+Service meta data is available at `GET /`.
+
+### Check
+
+The service provides a single GET endpoint:
+
+```
+/:hash
+```
+
+Where hash is a SHA-1 hash of the password to check; the reply is a JSON boolean.
+
 ## Scripts
 
 ### Download
