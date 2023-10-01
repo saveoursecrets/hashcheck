@@ -9,14 +9,24 @@ use easypwned_bloom::bloom::{bloom_get, EasyBloom};
 use human_bytes::human_bytes;
 use serde::Deserialize;
 use serde_json::{json, Value};
-use std::{fmt, net::SocketAddr, str::FromStr, sync::Arc, time::SystemTime};
+use std::{fmt, net::SocketAddr, path::PathBuf, str::FromStr, sync::Arc, time::SystemTime};
+
+struct MetaData {
+    last_updated: String,
+}
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 pub struct HibpService {
+    /// Bind address.
     #[clap(short, long, default_value = "0.0.0.0:3342")]
     bind: String,
 
+    /// Read last updated date from this file.
+    #[clap(short, long, default_value = "last-updated.txt")]
+    last_updated: PathBuf,
+
+    /// Bloom filter data file.
     #[clap(default_value = "hibp.bloom")]
     file: String,
 }
@@ -52,6 +62,9 @@ async fn main() -> Result<()> {
 
     let args = HibpService::parse();
     let addr = args.bind.parse::<SocketAddr>()?;
+
+    let last_updated = std::fs::read_to_string(&args.last_updated)?;
+    let meta_data = MetaData { last_updated };
 
     let meta = std::fs::metadata(&args.file)?;
     tracing::info!(
@@ -89,10 +102,11 @@ async fn main() -> Result<()> {
         );
     }
 
-    let bloom_ext = Arc::new(bloom);
     let app = Router::new()
-        .route("/:hash", get(handler_hash))
-        .layer(Extension(bloom_ext));
+        .route("/", get(home))
+        .route("/:hash", get(check_hash))
+        .layer(Extension(Arc::new(meta_data)))
+        .layer(Extension(Arc::new(bloom)));
 
     tracing::info!("listening on {}", addr);
     axum::Server::bind(&addr)
@@ -102,7 +116,13 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn handler_hash(
+async fn home(Extension(meta_data): Extension<Arc<MetaData>>) -> Json<Value> {
+    let name = env!("CARGO_PKG_NAME");
+    let version = env!("CARGO_PKG_VERSION");
+    Json(json!({"name": name, "version": version, "updated": meta_data.last_updated}))
+}
+
+async fn check_hash(
     Extension(bloom): Extension<Arc<EasyBloom>>,
     Path(hash): Path<PasswordHash>,
 ) -> Json<Value> {
