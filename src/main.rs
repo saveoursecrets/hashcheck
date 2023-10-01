@@ -9,7 +9,10 @@ use easypwned_bloom::bloom::{bloom_get, EasyBloom};
 use human_bytes::human_bytes;
 use serde::Deserialize;
 use serde_json::{json, Value};
-use std::{fmt, net::SocketAddr, path::PathBuf, str::FromStr, sync::Arc, time::SystemTime};
+use std::{
+    fmt, net::SocketAddr, path::PathBuf, str::FromStr, sync::Arc,
+    time::SystemTime,
+};
 
 struct MetaData {
     last_updated: String,
@@ -52,10 +55,13 @@ impl FromStr for PasswordHash {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+    use tracing_subscriber::{
+        layer::SubscriberExt, util::SubscriberInitExt,
+    };
     tracing_subscriber::registry()
         .with(tracing_subscriber::EnvFilter::new(
-            std::env::var("RUST_LOG").unwrap_or_else(|_| "info".into()),
+            std::env::var("RUST_LOG")
+                .unwrap_or_else(|_| "info".into()),
         ))
         .with(tracing_subscriber::fmt::layer().without_time())
         .init();
@@ -63,7 +69,8 @@ async fn main() -> Result<()> {
     let args = HibpService::parse();
     let addr = args.bind.parse::<SocketAddr>()?;
 
-    let last_updated = std::fs::read_to_string(&args.last_updated)?.trim();
+    let last_updated =
+        std::fs::read_to_string(&args.last_updated)?.trim().to_owned();
     let meta_data = MetaData { last_updated };
 
     let meta = std::fs::metadata(&args.file)?;
@@ -87,7 +94,10 @@ async fn main() -> Result<()> {
     tracing::info!("creating bloom filter");
     let now = SystemTime::now();
     let bloom = bloom.to_bloom();
-    tracing::info!("finished creating bloom filter in {:#?}", now.elapsed()?);
+    tracing::info!(
+        "finished creating bloom filter in {:#?}",
+        now.elapsed()?
+    );
 
     let checks = vec![
         "0000000CAEF405439D57847A8657218C618160B2",
@@ -116,10 +126,14 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn home(Extension(meta_data): Extension<Arc<MetaData>>) -> Json<Value> {
+async fn home(
+    Extension(meta_data): Extension<Arc<MetaData>>,
+) -> Json<Value> {
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
-    Json(json!({"name": name, "version": version, "updated": meta_data.last_updated}))
+    Json(
+        json!({"name": name, "version": version, "updated": meta_data.last_updated}),
+    )
 }
 
 async fn check_hash(
