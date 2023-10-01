@@ -46,12 +46,6 @@ docker run -it --rm --name hashcheck -p 3342:3342 hashcheck
 
 Deploy to the container registry.
 
-Build for the correct deployment architecture:
-
-```
-docker buildx build --platform=linux/amd64 -t hashcheck-linux-amd64 .
-```
-
 Create a login password for the container registry:
 
 ```
@@ -60,10 +54,26 @@ AWS_PROFILE=sos-containers aws ecr-public get-login-password \
   --username AWS --password-stdin public.ecr.aws/s2y4a9f8
 ```
 
+## MacOS ARM
+
+For MacOS with ARM chips build for the correct deployment architecture and push:
+
+```
+docker buildx build --platform=linux/amd64 --push -t public.ecr.aws/s2y4a9f8/hashcheck:latest .
+```
+
+## Linux
+
+Build the image:
+
+```
+docker build . --tag hashcheck
+```
+
 Tag the image:
 
 ```
-docker tag hashcheck-linux-amd64:latest public.ecr.aws/s2y4a9f8/hashcheck:latest
+docker tag hashcheck:latest public.ecr.aws/s2y4a9f8/hashcheck:latest
 ```
 
 Push the image to the registry:
