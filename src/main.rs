@@ -114,7 +114,7 @@ async fn main() -> Result<()> {
     }
 
     let app = Router::new()
-        .route("/", get(home))
+        .route("/", get(home).post(check_batch))
         .route("/:hash", get(check_hash))
         .layer(Extension(Arc::new(meta_data)))
         .layer(Extension(Arc::new(bloom)));
@@ -132,9 +132,11 @@ async fn home(
 ) -> Json<Value> {
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
-    Json(
-        json!({"name": name, "version": version, "updated": meta_data.last_updated}),
-    )
+    Json(json!({
+        "name": name,
+        "version": version,
+        "updated": meta_data.last_updated
+    }))
 }
 
 async fn check_hash(
@@ -143,7 +145,27 @@ async fn check_hash(
 ) -> Json<Value> {
     // Must be upper case for the check
     let value = hash.to_string();
-    let check = bloom.check(&value.as_bytes().to_vec());
+    let check = bloom.check(&value.into_bytes());
     let value = if check { 1 } else { 0 };
     Json(json!(value))
+}
+
+async fn check_batch(
+    Extension(bloom): Extension<Arc<EasyBloom>>,
+    Json(hashes): Json<Vec<PasswordHash>>,
+) -> Json<Value> {
+    let checks: Vec<u8> = hashes
+        .into_iter()
+        .map(|hash| {
+            // Must be upper case for the check
+            let value = hash.to_string();
+            let check = bloom.check(&value.into_bytes());
+            if check {
+                1
+            } else {
+                0
+            }
+        })
+        .collect();
+    Json(json!(checks))
 }
