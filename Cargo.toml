@@ -1,6 +1,6 @@
 [package]
 name = "hashcheck"
-version = "1.1.0"
+version = "1.2.0"
 edition = "2021"
 description = "Check password hashes against a database of breached passwords."
 homepage = "https://hashcheck.saveoursecrets.com"
