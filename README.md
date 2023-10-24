@@ -8,13 +8,19 @@ Service meta data is available at `GET /`.
 
 ### Check
 
-The service provides a single GET endpoint:
+The service provides a GET endpoint:
 
 ```
 /:hash
 ```
 
 Where `:hash` is a SHA-1 hash of the password to check; the reply is a JSON number `1` if the password hash was found in the database otherwise `0`.
+
+### Batch
+
+To check a batch of SHA-1 hashes send a POST request to `/` with a JSON array of hex-encoded strings.
+
+The response will be a JSON array of equal length to the input with a `1` if the hash was found and `0` otherwise.
 
 ## Scripts
 
