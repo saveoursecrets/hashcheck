@@ -1,6 +1,6 @@
 # Docker file for building locally assuming
 # the bloom file already exists in the database dir
-FROM rust:1.72-buster AS rust
+FROM rust:1.76.0-buster AS rust
 
 COPY database/hibp.bloom hibp.bloom
 COPY database/last-updated.txt last-updated.txt
