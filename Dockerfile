@@ -9,6 +9,6 @@ COPY easypwned/easypwned_bloom easypwned/easypwned_bloom
 COPY Cargo.toml Cargo.toml
 COPY Cargo.lock Cargo.lock
 RUN cargo install --path .
-RUN hashcheck --version
+RUN sos-hashcheck --version
 
-CMD hashcheck
+CMD sos-hashcheck
